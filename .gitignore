@@ -1,0 +1,4 @@
+node_modules/
+public/
+src/controller/backups/
+log.txt

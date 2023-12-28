@@ -1,0 +1,446 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "Syscon",
+    "dateExported": "2023-12-28T10:40:45.509Z",
+    "version": "1.1",
+    "folders": [
+        {
+            "_id": "5034794d-5563-461f-8f11-bd121218f8ef",
+            "name": "Master Controller",
+            "containerId": "",
+            "created": "2023-12-12T07:56:03.380Z",
+            "sortNum": 10000
+        },
+        {
+            "_id": "33f61978-0806-4a00-b911-c0689c92efb3",
+            "name": "FormController",
+            "containerId": "",
+            "created": "2023-12-12T07:56:03.381Z",
+            "sortNum": 20000
+        },
+        {
+            "_id": "13fd1fc8-52f6-4a8b-9f90-25464f423643",
+            "name": "MenuController",
+            "containerId": "",
+            "created": "2023-12-13T05:05:23.022Z",
+            "sortNum": 40000
+        },
+        {
+            "_id": "e6ad4f25-b0ea-426f-873e-528ebcf74fe3",
+            "name": "roleController",
+            "containerId": "",
+            "created": "2023-12-14T06:45:09.074Z",
+            "sortNum": 50000
+        },
+        {
+            "_id": "61b0607f-bc74-46e9-a2f5-8dbc512012eb",
+            "name": "userController",
+            "containerId": "",
+            "created": "2023-12-14T10:52:46.742Z",
+            "sortNum": 60000
+        }
+    ],
+    "requests": [
+        {
+            "_id": "1e6dcc75-3994-4f27-8817-a41c118c80a4",
+            "colId": "bd2cbe50-4bf4-4a24-9d7c-3a8af6066f63",
+            "containerId": "5034794d-5563-461f-8f11-bd121218f8ef",
+            "name": "Add/update",
+            "url": "http://localhost:3016/api/master/MasterAdd",
+            "method": "POST",
+            "sortNum": 30000,
+            "created": "2023-12-12T07:56:03.380Z",
+            "modified": "2023-12-28T09:51:18.164Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": " {\n      \"id\": 9,\n      \"indexes\": null,\n      \"tableName\": \"tblSysconDemo\",\n      \"children\": [\n        {\n          \"tableName\": \"tblState\",\n          \"fields\": [\n            {\n              \"fieldname\": \"code\",\n              \"defaultValue\": null,\n              \"status\": 1,\n              \"type\": \"string\",\n              \"size\": 5,\n              \"referenceTable\": null\n            },\n            {\n              \"fieldname\": \"taxStateCode\",\n              \"defaultValue\": null,\n              \"status\": 1,\n              \"type\": \"string\",\n              \"size\": 3,\n              \"referenceTable\": null\n            },\n            {\n              \"fieldname\": \"name\",\n              \"defaultValue\": null,\n              \"status\": 1,\n              \"type\": \"string\",\n              \"size\": 50,\n              \"referenceTable\": null\n            }\n          ],\n          \"subChildren\": []\n        },\n        {\n          \"tableName\": \"tblCity\",\n         \n          \"fields\": [\n            {\n              \"fieldname\": \"name\",\n              \"defaultValue\": null,\n              \"status\": 1,\n              \"type\": \"string\",\n              \"size\": 50,\n              \"referenceTable\": null\n            },\n            {\n              \"fieldname\": \"tblStateId\",\n              \"defaultValue\": null,\n              \"status\": 1,\n              \"type\": \"Number\",\n              \"size\": null,\n              \"referenceTable\": null\n            },\n            {\n              \"fieldname\": \"cityPhoneCode\",\n              \"defaultValue\": null,\n              \"status\": 1,\n              \"type\": \"string\",\n              \"size\": 10,\n              \"referenceTable\": null\n            },\n            {\n              \"fieldname\": \"code\",\n              \"defaultValue\": null,\n              \"status\": 1,\n              \"type\": \"string\",\n              \"size\": 50,\n              \"referenceTable\": null\n            }\n          ],\n          \"subChildren\": []\n        }\n      ],\n      \"fields\": [\n        {\n          \"fieldname\": \"code\",\n          \"defaultValue\": null,\n          \"status\": 1,\n          \"isRequired\": true,\n          \"index\":0,\n          \"type\": \"string\",\n          \"size\": 5,\n          \"referenceTable\": null,\n          \"isUnique\":true\n        },\n        {\n          \"fieldname\": \"name\",\n          \"defaultValue\": null,\n          \"status\": 1,\n          \"isRequired\": true,\n          \"index\":1,\n          \"type\": \"string\",\n          \"size\": 50,\n          \"referenceTable\": null\n        },\n        {\n          \"fieldname\": \"countryPhoneCode\",\n          \"defaultValue\": null,\n          \"status\": 1,\n          \"isRequired\": false,\n          \"type\": \"string\",\n          \"size\": 10,\n          \"referenceTable\": null\n        },\n        {\n          \"fieldname\": \"blacklist\",\n          \"defaultValue\": null,\n          \"status\": 1,\n          \"isRequired\": false,\n          \"type\": \"string\",\n          \"size\": 1,\n          \"referenceTable\": null\n        },\n        {\n          \"fieldname\": \"activeInactive\",\n          \"defaultValue\": null,\n          \"status\": 1,\n          \"isRequired\": false,\n          \"type\": \"string\",\n          \"size\": 1,\n          \"referenceTable\": null\n        }\n     ]\n    }",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "fb976765-92f4-4335-95a4-fa8c365c8272",
+            "colId": "bd2cbe50-4bf4-4a24-9d7c-3a8af6066f63",
+            "containerId": "5034794d-5563-461f-8f11-bd121218f8ef",
+            "name": "List",
+            "url": "http://localhost:3016/api/master/List?id=6",
+            "method": "GET",
+            "sortNum": 40000,
+            "created": "2023-12-12T07:56:03.381Z",
+            "modified": "2023-12-21T12:25:30.939Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "id",
+                    "value": "6",
+                    "isPath": false
+                }
+            ],
+            "tests": []
+        },
+        {
+            "_id": "d2884385-09f2-4bd6-83bd-717b8e353832",
+            "colId": "bd2cbe50-4bf4-4a24-9d7c-3a8af6066f63",
+            "containerId": "5034794d-5563-461f-8f11-bd121218f8ef",
+            "name": "add into Master",
+            "url": "http://localhost:3016/api/master/Insert_into_master",
+            "method": "POST",
+            "sortNum": 50000,
+            "created": "2023-12-12T07:56:03.382Z",
+            "modified": "2023-12-28T10:27:20.878Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "\n  {\n    \"code\": \"de\",\n    \"name\": \"ISAEL\",\n    \"countryPhoneCode\": \"null\",\n    \"blacklist\": \"n\",\n    \"activeInactive\": \"y\",\n    \"tblState\": [],\n    \"tblCity\": [],\n    \"tableName\": \"tblCountry\"\n  }\n",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "6dc2dbd7-829b-4aad-89c2-0177c782af64",
+            "colId": "bd2cbe50-4bf4-4a24-9d7c-3a8af6066f63",
+            "containerId": "33f61978-0806-4a00-b911-c0689c92efb3",
+            "name": "add/update",
+            "url": "http://localhost:3016/api/FormControl/add",
+            "method": "POST",
+            "sortNum": 70000,
+            "created": "2023-12-12T07:56:03.383Z",
+            "modified": "2023-12-28T10:12:43.501Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"id\": 1,\n  \"tableName\": \"tblSysconDemo\",\n  \"menuID\": 2,\n  \"fields\": [\n    {\n      \"fieldname\": \"code\",\n      \"yourlabel\": \"Code\",\n      \"controlname\": \"text\",\n      \"isControlShow\": true,\n      \"referenceTable\": null,\n      \"referenceColumn\": null,\n      \"type\": \"String\",\n      \"size\": 100,\n      \"ordering\": 1,\n      \"isRequired\": true,\n      \"isEditable\": false,\n      \"dropdownFilter\": null,\n      \"controlDefaultValue\": null,\n      \"functionOnChange\": null,\n      \"functionOnBlur\": null,\n      \"functionOnKeyPress\": null,\n      \"sectionHeader\": null,\n      \"sectionOrder\": null\n    },\n    {\n      \"fieldname\": \"name\",\n      \"yourlabel\": \"Name\",\n      \"controlname\": \"text\",\n      \"isControlShow\": true,\n      \"referenceTable\": null,\n      \"referenceColumn\": null,\n      \"type\": \"String\",\n      \"size\": 500,\n      \"ordering\": 2,\n      \"isRequired\": true,\n      \"isEditable\": true,\n      \"dropdownFilter\": null,\n      \"controlDefaultValue\": null,\n      \"functionOnChange\": null,\n      \"functionOnBlur\": null,\n      \"functionOnKeyPress\": null,\n      \"sectionHeader\": null,\n      \"sectionOrder\": null\n    },\n    {\n      \"fieldname\": \"countryPhoneCode\",\n      \"yourlabel\": \"Phone Code\",\n      \"controlname\": \"text\",\n      \"isControlShow\": true,\n      \"referenceTable\": null,\n      \"referenceColumn\": null,\n      \"type\": \"String\",\n      \"size\": 100,\n      \"ordering\": 3,\n      \"isRequired\": true,\n      \"isEditable\": true,\n      \"dropdownFilter\": null,\n      \"controlDefaultValue\": null,\n      \"functionOnChange\": null,\n      \"functionOnBlur\": null,\n      \"functionOnKeyPress\": null,\n      \"sectionHeader\": null,\n      \"sectionOrder\": null\n    },\n    {\n      \"fieldname\": \"blacklist\",\n      \"yourlabel\": \"Black List\",\n      \"controlname\": \"dropdown\",\n      \"isControlShow\": true,\n      \"referenceTable\": \"tblCountry\",\n      \"referenceColumn\": \"name,@,code\",\n      \"type\": null,\n      \"size\": null,\n      \"ordering\": 4,\n      \"isRequired\": true,\n      \"isEditable\": true,\n      \"dropdownFilter\": null,\n      \"controlDefaultValue\": null,\n      \"functionOnChange\": null,\n      \"functionOnBlur\": null,\n      \"functionOnKeyPress\": null,\n      \"sectionHeader\": null,\n      \"sectionOrder\": null\n    },\n    {\n      \"fieldname\": \"activeInactive\",\n      \"yourlabel\": \"Active\",\n      \"controlname\": \"dropdown\",\n      \"isControlShow\": true,\n      \"referenceTable\": \"tblCountry\",\n      \"referenceColumn\": \"name\",\n      \"type\": null,\n      \"size\": null,\n      \"ordering\": 5,\n      \"isRequired\": true,\n      \"isEditable\": true,\n      \"dropdownFilter\": null,\n      \"controlDefaultValue\": null,\n      \"functionOnChange\": null,\n      \"functionOnBlur\": null,\n      \"functionOnKeyPress\": null,\n      \"sectionHeader\": null,\n      \"sectionOrder\": null\n    }\n  ],\n  \"children\": []\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "7b1b3008-c26a-4f59-9e3c-4bb6e77be0bc",
+            "colId": "bd2cbe50-4bf4-4a24-9d7c-3a8af6066f63",
+            "containerId": "33f61978-0806-4a00-b911-c0689c92efb3",
+            "name": "list",
+            "url": "http://localhost:3016/api/FormControl/list?menuID=2",
+            "method": "GET",
+            "sortNum": 80000,
+            "created": "2023-12-12T07:56:03.384Z",
+            "modified": "2023-12-28T09:38:40.886Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "menuID",
+                    "value": "2",
+                    "isPath": false
+                }
+            ],
+            "tests": []
+        },
+        {
+            "_id": "68a07452-c32a-4570-a650-800d7fa9158f",
+            "colId": "bd2cbe50-4bf4-4a24-9d7c-3a8af6066f63",
+            "containerId": "5034794d-5563-461f-8f11-bd121218f8ef",
+            "name": "master list and info",
+            "url": "http://localhost:3016/api/master/dytablelist",
+            "method": "POST",
+            "sortNum": 100000,
+            "created": "2023-12-12T07:56:03.385Z",
+            "modified": "2023-12-28T09:12:02.235Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"tableName\":\"tblSysconDemo\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "6af4ba2d-cdaf-4ef8-b377-3a070e0c9318",
+            "colId": "bd2cbe50-4bf4-4a24-9d7c-3a8af6066f63",
+            "containerId": "13fd1fc8-52f6-4a8b-9f90-25464f423643",
+            "name": "addMenu",
+            "url": "http://localhost:3016/api/menuControl/add",
+            "method": "POST",
+            "sortNum": 110000,
+            "created": "2023-12-13T05:05:37.169Z",
+            "modified": "2023-12-14T06:58:37.799Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"menuName\": \"Kunal\",\n  \"options\": [\n    {\n      \"menuName\": \"gll\",\n      \"child\": [\n        {\n          \"menuName\": \"fsdf\",\n          \"child\": [\n            {\n              \"menuName\": \"fsdf\",\n              \"child\": [\n                {\n                  \"menuName\": \"fds\",\n                  \"child\": [\n                    {\n                      \"menuName\": \"dss\"\n                    }\n                  ]\n                }\n              ]\n            }\n          ]\n        }\n      ]\n    }\n  ]\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "3d21c587-5de4-42cc-8484-3e26b115471a",
+            "colId": "bd2cbe50-4bf4-4a24-9d7c-3a8af6066f63",
+            "containerId": "13fd1fc8-52f6-4a8b-9f90-25464f423643",
+            "name": "MenuList",
+            "url": "http://localhost:3016/api/menuControl/list?search=657a8e6f222b8e8cfb54a646",
+            "method": "POST",
+            "sortNum": 120000,
+            "created": "2023-12-13T05:24:09.636Z",
+            "modified": "2023-12-16T05:19:23.225Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "search",
+                    "value": "657a8e6f222b8e8cfb54a646",
+                    "isPath": false
+                }
+            ],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"userName\":\"kunal_23\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "9d251765-d2e5-492f-9d98-7b2a9ec0b314",
+            "colId": "bd2cbe50-4bf4-4a24-9d7c-3a8af6066f63",
+            "containerId": "e6ad4f25-b0ea-426f-873e-528ebcf74fe3",
+            "name": "Add",
+            "url": "http://localhost:3016/api/roleControl/add",
+            "method": "POST",
+            "sortNum": 130000,
+            "created": "2023-12-14T06:45:24.235Z",
+            "modified": "2023-12-15T05:45:56.769Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \n  \"roleName\": \"\",\n  \"menuAccess\": [\n    {\n      \"menuID\": \"657a8e6f36d09da9c2933e0a\",\n      \"isDeleted\": true,\n      \"isEdit\": true,\n      \"isview\": true,\n      \"isAdd\": true\n    },\n    {\n      \"menuID\": \"657aa79d8f7bf0facf1fdd7e\",\n      \"isDeleted\": true,\n      \"isEdit\": true,\n      \"isview\": true,\n      \"isAdd\": true\n    }\n  ]\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "bba6e558-1c06-4564-bd79-6c2d6e8ed7e3",
+            "colId": "bd2cbe50-4bf4-4a24-9d7c-3a8af6066f63",
+            "containerId": "61b0607f-bc74-46e9-a2f5-8dbc512012eb",
+            "name": "Adduser",
+            "url": "http://localhost:3016/api/userControl/add",
+            "method": "POST",
+            "sortNum": 140000,
+            "created": "2023-12-14T10:52:56.397Z",
+            "modified": "2023-12-26T11:42:00.073Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "formdata",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "id",
+                        "value": ""
+                    },
+                    {
+                        "name": "name",
+                        "value": "demo"
+                    },
+                    {
+                        "name": "email",
+                        "value": "deom@gmail.com"
+                    },
+                    {
+                        "name": "userName",
+                        "value": "demo@123"
+                    },
+                    {
+                        "name": "password",
+                        "value": "nanoray"
+                    },
+                    {
+                        "name": "menuAccess",
+                        "value": "[ { \"menuID\": \"657a8e6f222b8e8cfb54a644\", \"isDeleted\": true, \"isEdit\": true, \"isview\": true, \"isAdd\": true } ]"
+                    },
+                    {
+                        "name": "twoStepVerification",
+                        "value": "true"
+                    },
+                    {
+                        "name": "emailVerification",
+                        "value": "false"
+                    },
+                    {
+                        "name": "smsVerification",
+                        "value": "true"
+                    },
+                    {
+                        "name": "mobile",
+                        "value": "1234567891"
+                    }
+                ],
+                "files": [
+                    {
+                        "name": "profilePhoto",
+                        "value": "c:\\Users\\admin\\Downloads\\logo122.png",
+                        "isDisabled": true
+                    }
+                ]
+            },
+            "tests": []
+        },
+        {
+            "_id": "bed82546-7c2a-4d2c-9b9b-bfde1323f45e",
+            "colId": "bd2cbe50-4bf4-4a24-9d7c-3a8af6066f63",
+            "containerId": "e6ad4f25-b0ea-426f-873e-528ebcf74fe3",
+            "name": "roleList",
+            "url": "http://localhost:3016/api/roleControl/list?id=1",
+            "method": "GET",
+            "sortNum": 150000,
+            "created": "2023-12-15T06:48:26.633Z",
+            "modified": "2023-12-16T05:54:45.552Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "id",
+                    "value": "1",
+                    "isPath": false
+                }
+            ],
+            "tests": []
+        },
+        {
+            "_id": "411d329f-f883-4331-99b9-4f866f94137d",
+            "colId": "bd2cbe50-4bf4-4a24-9d7c-3a8af6066f63",
+            "containerId": "61b0607f-bc74-46e9-a2f5-8dbc512012eb",
+            "name": "UserLoing",
+            "url": "http://localhost:3016/api/userControl/login",
+            "method": "POST",
+            "sortNum": 160000,
+            "created": "2023-12-15T09:20:46.083Z",
+            "modified": "2023-12-15T10:29:23.738Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "formdata",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "userName",
+                        "value": "kunal_23"
+                    },
+                    {
+                        "name": "password",
+                        "value": "nanoray"
+                    }
+                ]
+            },
+            "tests": []
+        },
+        {
+            "_id": "b28d6987-421f-4859-b792-fa5275c51108",
+            "colId": "bd2cbe50-4bf4-4a24-9d7c-3a8af6066f63",
+            "containerId": "61b0607f-bc74-46e9-a2f5-8dbc512012eb",
+            "name": "VerifyOtp",
+            "url": "http://localhost:3016/api/userControl/verifyOtp",
+            "method": "POST",
+            "sortNum": 170000,
+            "created": "2023-12-15T11:15:02.155Z",
+            "modified": "2023-12-18T10:25:53.562Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "formdata",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "otp",
+                        "value": "654201"
+                    },
+                    {
+                        "name": "userName",
+                        "value": "kunal_23"
+                    }
+                ]
+            },
+            "tests": []
+        },
+        {
+            "_id": "aeea45b5-61d1-45a3-86f2-bc36c00bdaad",
+            "colId": "bd2cbe50-4bf4-4a24-9d7c-3a8af6066f63",
+            "containerId": "61b0607f-bc74-46e9-a2f5-8dbc512012eb",
+            "name": "ForgotPassword",
+            "url": "http://localhost:3016/api/userControl/forgotPassword",
+            "method": "POST",
+            "sortNum": 180000,
+            "created": "2023-12-16T10:26:13.958Z",
+            "modified": "2023-12-16T12:09:55.644Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "formdata",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "userName",
+                        "value": "8057532605"
+                    }
+                ]
+            },
+            "tests": []
+        },
+        {
+            "_id": "d440ea8f-b0fd-4d7f-9db8-50c00df9c039",
+            "colId": "bd2cbe50-4bf4-4a24-9d7c-3a8af6066f63",
+            "containerId": "61b0607f-bc74-46e9-a2f5-8dbc512012eb",
+            "name": "changePassword",
+            "url": "http://localhost:3016/api/userControl/changePassword",
+            "method": "POST",
+            "sortNum": 190000,
+            "created": "2023-12-18T10:40:47.766Z",
+            "modified": "2023-12-18T13:11:34.296Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "formdata",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "userName",
+                        "value": "kunal_23"
+                    },
+                    {
+                        "name": "newPassword",
+                        "value": "nanoray"
+                    },
+                    {
+                        "name": "forgotPassword",
+                        "value": ""
+                    },
+                    {
+                        "name": "oldPassword",
+                        "value": "kunal"
+                    }
+                ]
+            },
+            "tests": []
+        },
+        {
+            "_id": "bca664f3-4cde-495a-8e0a-51d57e646c23",
+            "colId": "bd2cbe50-4bf4-4a24-9d7c-3a8af6066f63",
+            "containerId": "",
+            "name": "SingleApiForInsertAndUpdate",
+            "url": "http://localhost:3016/api/insertdata",
+            "method": "POST",
+            "sortNum": 200000,
+            "created": "2023-12-27T05:30:40.753Z",
+            "modified": "2023-12-27T06:28:28.060Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "[\n  {\n    \"routeName\": \"mastervalue\",\n    \"code\": \"IL\",\n    \"name\": \"ISRAEL\",\n    \"countryPhoneCode\": \"null\",\n    \"blacklist\": \"n\",\n    \"activeInactive\": \"y\",\n    \"tblState\": [],\n    \"tblCity\": [],\n    \"tableName\": \"tblCountry\"\n  }\n]",
+                "form": []
+            },
+            "tests": []
+        }
+    ]
+}

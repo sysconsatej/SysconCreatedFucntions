@@ -1,0 +1,126 @@
+[
+    {
+        "table_name": "tbl_bl",
+        "fields": [
+            {
+                "fieldname": "field_one",
+                "value": "",
+                "yourlabel": "Enter Your lable"
+            },
+            {
+                "fieldname": "field_two",
+                "value": "",
+                "yourlabel": "Enter Your lable"
+            },
+            {
+                "fieldname": "field_3",
+                "value": "",
+                "yourlabel": "Enter Your lable"
+            },
+            {
+                "fieldname": "field_4",
+                "value": "",
+                "yourlabel": "Enter Your lable"
+            },
+            {
+                "fieldname": "field_5",
+                "value": "",
+                "yourlabel": "Enter Your lable"
+            }
+        ],
+        "childern": [
+            {
+                "table_name": "tbl_bl_charger",
+                "fields": [
+                    {
+                        "fieldname": "Child_1",
+                        "value": [1,2,3],
+                        "yourlabel": "Enter Your lable"
+                    },
+                    {
+                        "fieldname": "Child_2",
+                        "value": [1,2,3],
+                        "yourlabel": "Enter Your lable"
+                    },
+                    {
+                        "fieldname": "Child_3",
+                        "value": [1,2,3],
+                        "yourlabel": "Enter Your lable"
+                    },
+                    {
+                        "fieldname": "Child_4",
+                        "value": [1,2,3],
+                        "yourlabel": "Enter Your lable"
+                    },
+                    {
+                        "fieldname": "Child_5",
+                        "value": [1,2,3],
+                        "yourlabel": "Enter Your lable"
+                    }
+                ]
+            },
+            {
+                "table_name": "tbl_bl_clause",
+                "fields": [
+                    {
+                        "fieldname": "Child_1",
+                        "value": [1,2,3],
+                        "yourlabel": "Enter Your lable"
+                    },
+                    {
+                        "fieldname": "Child_2",
+                        "value": [1,2,3],
+                        "yourlabel": "Enter Your lable"
+                    },
+                    {
+                        "fieldname": "Child_3",
+                        "value": [1,2,3],
+                        "yourlabel": "Enter Your lable"
+                    },
+                    {
+                        "fieldname": "Child_4",
+                        "value": [1,2,3],
+                        "yourlabel": "Enter Your lable"
+                    },
+                    {
+                        "fieldname": "Child_5",
+                        "value": [1,2,3],
+                        "yourlabel": "Enter Your lable"
+                    }
+                ]
+            },
+            {
+                "table_name": "tbl_bl_container",
+                "fields": [
+                    {
+                        "fieldname": "Child_1",
+                        "value": [1,2,3],
+                        "yourlabel": "Enter Your lable"
+                    },
+                    {
+                        "fieldname": "Child_2",
+                        "value": [1,2,3],
+                        "yourlabel": "Enter Your lable"
+                    },
+                    {
+                        "fieldname": "Child_3",
+                        "value": [1,2,3],
+                        "yourlabel": "Enter Your lable"
+                    },
+                    {
+                        "fieldname": "Child_4",
+                        "value": [1,2,3],
+                        "yourlabel": "Enter Your lable"
+                    },
+                    {
+                        "fieldname": "Child_5",
+                        "value": [1,2,3],
+                        "yourlabel": "Enter Your lable"
+                    }
+                ]
+            }
+        ],
+        "user_id": 1,
+        "ordring": 1
+    }
+]
