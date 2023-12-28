@@ -3,11 +3,6 @@
         "table_name": "tbl_bl",
         "fields": [
             {
-                "fieldname": "field_one",
-                "value": "",
-                "yourlabel": "Enter Your lable"
-            },
-            {
                 "fieldname": "field_two",
                 "value": "",
                 "yourlabel": "Enter Your lable"
