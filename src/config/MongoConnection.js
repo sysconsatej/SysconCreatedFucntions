@@ -3,7 +3,7 @@
 
 const mongoos=require("mongoose")
 const colors=require("colors")
-let url=`mongodb://0.0.0.0:27017/${process.env.DB}`
+let url=`mongodb+srv://syscon:sysconLSS@cluster0.azodb4j.mongodb.net/${process.env.DB}`
 // mongoos.connect(url,{useNewUrlParser:true})
 // mongoos.connect(url,{useNewUrlParser:true,useUnifiedTopology:true,ssl:false,user:process.env.DB_USER,pass:process.env.DB_PASSWORD,authSource:process.env.DB,dbName:process.env.DB,})
 
