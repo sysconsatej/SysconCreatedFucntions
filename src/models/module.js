@@ -682,6 +682,38 @@ exports.Update_If_Avilable_Else_Insert_master_Bulk = async (collectionName, sche
 // };
 
 
+
+exports.Update_If_Avilable_Else = async (collectionName, schemaName, data, res) => {
+    return new Promise(async (resolve, reject) => {
+        // Retrieve the schema based on the provided name, default to a generic schema if not found
+        let finalSchema = Schema[schemaName] || Schema["any"];
+        let model = mongoose.model(collectionName, finalSchema);
+
+        // Check if the data is an array (bulk insert) or a single object (upsert)
+        if (Array.isArray(data)) {
+            // Insert multiple documents
+            model.insertMany(data)
+                .then(result => resolve(result))
+                .catch(err => {
+                    console.log(err);
+                    reject(err);
+                });
+        } else {
+            // Upsert a single document
+            // If _id is provided, use it for update, otherwise, MongoDB generates a new _id
+            let query = data._id ? { _id: data._id, status: 1 } : { status: 1 };
+            model.findOneAndUpdate(query, data, { new: true, upsert: true })
+                .then(result => resolve(result))
+                .catch(err => {
+                    console.log(err);
+                    reject(err);
+                });
+        }
+    });
+};
+
+
+
 exports.Update_If_Avilable_Else_Insert = async (collectionName, schema, data, indexes, res) => {
 
     return new Promise(async function (resolve, reject) {
@@ -705,7 +737,7 @@ exports.Update_If_Avilable_Else_Insert = async (collectionName, schema, data, in
                     reject(err);
                 })
         } else {
-            data.id == "" ? data.id = await idCounter(model, 'id') : "";
+            data.id == ""|| typeof data.id=="undefined" ? data.id = await idCounter(model, 'id') : "";
             model.findOneAndUpdate({ id: data.id, status: 1 }, data, { new: true, upsert: true }).then((result) => {
                 resolve(result);
             })
