@@ -17,7 +17,7 @@ const dynamicRouterMiddleware = (req, res, next) => {
         routeName = req.body.routeName;
     }
     console.log(routeName);
-    console.log('Received request............. on /api/insertdata with routeName:', req.body.routeName);
+    console.log('Received request............. on /api/insertdata with routeName:', routeName);
 
     switch (routeName) {
        

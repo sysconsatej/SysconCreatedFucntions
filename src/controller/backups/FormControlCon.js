@@ -1,7 +1,9 @@
 
 const validate = require('../helper/validate')
 const model = require("../models/module")
-// const { assign } = require('nodemailer/lib/shared');
+const form_controler = require('../../Syscon_Dev.FormControl.json')
+const new_formcontroller = require('../../formcontrollerSchema.json');
+const { assign } = require('nodemailer/lib/shared');
 function groupBy(arr, key) {
     return arr.reduce((acc, obj) => {
         const keyValue = obj[key];
@@ -22,73 +24,6 @@ function generateRandomString(length) {
 
     return randomString;
 }
-async function fetchDataForDropdown(dropdownData, model, res) {
-    let dropdownMatch = { status: 1 };
-    if (dropdownData.dropdownFilter !== null) {
-        console.log(JSON.parse(fixJsonLikeString(dropdownData.dropdownFilter)));
-        // let temp = JSON.parse(dropdownData.dropdownFilter.replace(/(\w+):/g, '"$1":').replace(/:([a-zA-Z]+)/g, ':"$1"'));
-        let temp = JSON.parse(fixJsonLikeString(dropdownData.dropdownFilter));
-        console.log(typeof temp);
-        Object.assign(dropdownMatch, temp);
-        console.log(dropdownMatch);
-    }
-    //    dropdownData.dropdownFilter!==null&&console.log("DropdownFilter",JSON.parse(dropdownData.dropdownFilter.replace(/(\w+):/g, '"$1":').replace(/:([a-zA-Z]+)/g, ':"$1"')));
-    let dropdownQuery = [{ $match: dropdownMatch }];
-
-    let referenceTable = dropdownData.referenceTable.split('.');
-    for (let i = 1; i < referenceTable.length; i++) {
-        let path = referenceTable.slice(1, i + 1).join('.');
-        dropdownQuery.push({ $unwind: { path: `$${path}`, preserveNullAndEmptyArrays: false } });
-    }
-
-    if (dropdownData.referenceColumn) {
-        const keys = dropdownData.referenceColumn.split(',');
-        const regex = /[\s\W]/;
-        const fieldsToConcat = keys.map(key => regex.test(key) ? `${key}` : `$${key.trim()}`);
-        dropdownQuery.push({
-            $project: {
-                id: 1,
-                value: { $concat: fieldsToConcat }
-            }
-        });
-    }
-
-    return await model.AggregateFetchData(referenceTable[0], dropdownData.referenceTable, dropdownQuery, res);
-}
-async function processFields(fields, model, res) {
-    for (let field of fields) {
-        if (field.controlname === "dropdown" && field.defaultValue.length == 0) {
-            field.data = await fetchDataForDropdown(field, model, res);
-        }
-        else if (field.controlname === "dropdown") {
-            field.data = field.default_value;
-        }
-    }
-    fields.sort((a, b) => a.ordering - b.ordering);
-}
-function fixJsonLikeString(str) {
-    // First, ensure that colons have spaces after them for consistency in the regex match
-    str = str.replace(/:/g, ': ');
-
-    // Add quotes to keys (including those with periods) and values that are missing them
-    str = str.replace(/([{\s,])(\w+(\.\w+)*)\s*:\s*(\w+)/g, '$1"$2": "$4"');
-
-    // Check if there are nested objects with improperly formatted JSON and fix them
-    const nestedObjectRegex = /"(\w+(\.\w+)*)":\s*"{([^}]+)}"/;
-    let match = nestedObjectRegex.exec(str);
-
-    while (match) {
-        // For the matched nested object, recursively fix its string
-        const fixedNestedObject = fixJsonLikeString(`{${match[3]}}`);
-        // Replace the matched string with the fixed nested object
-        str = str.replace(nestedObjectRegex, `"$1": ${fixedNestedObject}`);
-        // Search for the next nested object
-        match = nestedObjectRegex.exec(str);
-    }
-
-    return str;
-}
-
 
 
 module.exports = {
@@ -1065,64 +1000,37 @@ module.exports = {
     // Code for Form Controler.....................................................................................................
     Formcontrol: async (req, res) => {
         try {
-            // Define validation rules for the incoming data
             const validationRule = {
-                tableName: "required",
+                table_name: "required",
                 menuID: "required"
             }
-
-            // Validate the request body against the validation rules
             validate(req.body, validationRule, {}, async (err, status) => {
                 if (!status) {
-                    // If validation fails, return an error response
                     res.status(403).send({
                         success: false,
                         message: "Validation Error....! ",
                         data: err
                     })
-                } else {
-                    // Prepare the data to be inserted or updated in the FormControl table
-                    try {
-                        let insertData = {
-                            id: req.body.id || "",
-                            tableName: req.body.tableName,
-                            menuID: req.body.menuID,
-                            fields: req.body.fields,
-                            // Set updated date and updated by if id exists and is not empty
-                            ...(req.body.id && req.body.id !== "" && {
-                                updatedDate: new Date(),
-                                updatedby: req.body.updatedby
-                            }),
-                            // Set created by if id is empty
-                            ...(req.body.id && req.body.id === "" && {
-                                createdBy: req.body.createdBy
-                            })
-                        }
-    
-                        // Ensure that children are an array, if not, set to an empty array
-                        insertData.children = Array.isArray(req.body.children) ? req.body.children : []
-    
-                        // Perform the database operation to update or insert data
-                        let data = await model.Update_If_Avilable_Else_Insert("tblFormcontrol", "mainTableSchema", insertData,{} ,res)
-    
-                        // Send response based on the result of the database operation
-                        data ?
-                            res.send({ success: true, message: "Data inserted successfully....", data: data }) :
-                            res.status(500).send({ success: false, message: "Data not inserted Successfully..." })
-                   
-
-                    } catch (error) {
-                        res.status(500).send({
-                            success: false,
-                            message: "Something went wrong",
-                            data: error.message
-                        })
+                }
+                else {
+                    let insertData = {}
+                    insertData.id = req.body.id || ""
+                    insertData.table_name = req.body.table_name;
+                    insertData.menuID = req.body.menuID;
+                    insertData.fields = req.body.fields;
+                    if (Array.isArray(req.body.children)) {
+                        insertData.children = req.body.children
                     }
+                    else {
+                        insertData.children = []
+                    }
+                    let data = await model.Update_If_Avilable_Else_Insert("tblFormcontrol", "mainTableSchema", insertData, res)
+                    data ? res.send({ success: true, message: "Data inserted successfully....", data: data }) : res.status(500).send({ success: false, message: "Data not inserted Successfully..." })
+
                 }
             })
         } catch (error) {
-            // Handle any errors during the process and send an error response
-            res.status(500).send({
+            res.status.send({
                 success: false,
                 message: "Something went wrong",
                 data: error
@@ -1131,141 +1039,145 @@ module.exports = {
     },
     listControlToDrowScreen: async (req, res) => {
         try {
-            // Initialize a match object for MongoDB query
             let _matchData = {}
-
-            // Define the initial query structure for MongoDB aggregation
             let query = [
                 {
                     $match: _matchData
                 }
             ]
+            req.query.menuID ? _matchData.menuID = req.query.menuID : null;
 
-            // If a menuID is provided in the query, add it to the match criteria
-            if (req.query.menuID) {
-                _matchData.menuID = req.query.menuID;
-            }
-
-            // Fetch form control data from the database using the model's AggregateFetchData method
             let formControllerData = await model.AggregateFetchData("tblFormcontrol", "mainTableSchema", query, res);
-
-            // Process each form control data and its child elements
             await Promise.all(formControllerData.map(async (data) => {
-                await processFields(data.fields, model, res);
-                for (let ch of data.children) {
-                    await processFields(ch.fields, model, res);
-                    for (let subChild of ch.subChildren) {
-                        await processFields(subChild.fields, model, res);
+                // Use a for-loop for better handling of async/await
+                for (let d of data.fields) {
+                    if (d.controlname == "dropdown") {
+                        let dropdownmatch = { status: 1 }
+                        let dropdownQuery = [{
+                            $match: dropdownmatch
+                        }];
+                        let reference_table = d.referenceTable.split('.')
+                        // reference_table.map((ref,index) => {
+                        //     index !== 0 ? dropdownQuery.push({$unwind:{path: `$${ref}`,preserveNullAndEmptyArrays:false}}) : ""
+                        // })
+                        for (let i = 1; i < reference_table.length; i++) {
+                            let path = reference_table.slice(1, i + 1).join('.');
+                            dropdownQuery.push({ $unwind: { path: `$${path}`, preserveNullAndEmptyArrays: false } });
+                        }
+                        if (d.referenceColumn !== null) {
+                             // Split the referenceColumn string into an array of keys
+                             const keys = d.referenceColumn.split(',');
+                             var regex = /[\s\W]/
+                             const fieldsToConcat = keys.map(key => regex.test(key) ? `${key}` :`$${key.trim()}`);
+                             console.log(fieldsToConcat);
+                             
+                             
+                            dropdownQuery.push({
+                                $project: {
+                                    id: 1,
+                                    // "value": `$${d.referenceColumn}`,
+                                    "value": {$concat: fieldsToConcat},
+                                }
+
+                            })
+                        }
+                        // console.log(d.referenceTable.split('.'));
+                        d.data = await model.AggregateFetchData(reference_table[0], d.referenceTable[0], dropdownQuery, res);
                     }
                 }
+                for (let ch of data.children) {
+                    for (let chd of ch.fields) {
+                        if (chd.controlname == "dropdown") {
+                            // Fetch data and assign it to ch.data
+                            let dropdownmatch = { status: 1 }
+                            let dropdownQuery = [{
+                                $match: dropdownmatch
+                            }];
+                            let reference_table = chd.referenceTable.split('.')
+                        // reference_table.map((ref,index) => {
+                        //     index !== 0 ? dropdownQuery.push({$unwind:{path: `$${ref}`,preserveNullAndEmptyArrays:false}}) : ""
+                        // })
+                        for (let i = 1; i < reference_table.length; i++) {
+                            let path = reference_table.slice(1, i + 1).join('.');
+                            dropdownQuery.push({ $unwind: { path: `$${path}`, preserveNullAndEmptyArrays: false } });
+                        }
+                            if (chd.referenceColumn !== null) {
+                                const keys = chd.referenceColumn.split(',');
+                                var regex = /[\s\W]/
+                                const fieldsToConcat = keys.map(key => regex.test(key) ? `${key}` :`$${key.trim()}`);
+                                console.log(fieldsToConcat);
+                               dropdownQuery.push({
+                                   $project: {
+                                       id: 1,
+                                       // "value": `$${d.referenceColumn}`,
+                                       "value": {$concat: fieldsToConcat},
+                                   }
+   
+                               })
+                               
+                                // dropdownQuery.push({
+                                //     $project: {
+                                //         id: 1,
+                                //         "value": `$${chd.referenceColumn}`
+                                //     }
+
+                                // })
+                            }
+                            chd.data = await model.AggregateFetchData(reference_table[0], reference_table[0], dropdownQuery, res);
+                        }
+                    }
+                    ch.fields.sort((a, b) => {
+                        return a.ordering - b.ordering
+                    })
+                    for (let subChild of ch.subChildren) {
+                        for (let subCh of subChild.fields) {
+                            if (subCh.controlname == "dropdown") {
+                                // Fetch data and assign it to ch.data
+                                let dropdownmatch = { status: 1 }
+                                let dropdownQuery = [{
+                                    $match: dropdownmatch
+                                }];
+                                let reference_table = subCh.referenceTable.split('.')
+                            for (let i = 1; i < reference_table.length; i++) {
+                                let path = reference_table.slice(1, i + 1).join('.');
+                                dropdownQuery.push({ $unwind: { path: `$${path}`, preserveNullAndEmptyArrays: false } });
+                            }
+                                if (subCh.referenceColumn !== null) {
+                                    const keys = subCh.referenceColumn.split(',');
+                                    var regex = /[\s\W]/
+                                    const fieldsToConcat = keys.map(key => regex.test(key) ? `${key}` :`$${key.trim()}`);
+                                    console.log(fieldsToConcat);
+                                   dropdownQuery.push({
+                                       $project: {
+                                           id: 1,
+                                           // "value": `$${d.referenceColumn}`,
+                                           "value": {$concat: fieldsToConcat},
+                                       }
+       
+                                   })
+                                   
+                                }
+                                subCh.data = await model.AggregateFetchData(reference_table[0], reference_table[0], dropdownQuery, res);
+                            }
+                        }
+                        
+                        
+                    }
+                }
+                data.fields.sort((a, b) => {
+                    return a.ordering - b.ordering
+                })
             }));
-            // console.log(formControllerData.length);
-            // return  res.send({ success: true, message: "Data Found", data: formControllerData })    
-            // Send a response with the form control data if found, otherwise send a 'data not found' message
-            formControllerData.length > 0 ?
-                res.send({ success: true, message: "Data Found", data: formControllerData }) :
-                res.send({ success: false, message: "Data Not Found", data: [] })
+            
+            // console.log("Data");
+            // console.log(data);
+            formControllerData.length > 0 ? res.send({ success: true, message: "Data Found", data: formControllerData }) : res.send({ success: false, message: "Data Not Found", data: [] })
         } catch (error) {
-            // Handle any errors during the process and send an error response
             res.send({
                 success: false,
                 message: "Something went wrong",
                 data: error.message
             })
         }
-    },
-
-    addQuotation: async (req, res) => {
-        try {
-
-            let insertData = {
-                id: req.body._id || "",
-                name: req.body.name,
-                yourlabel: req.body.yourlabel,
-                controlname: req.body.controlname,
-                isControlShow: req.body.isControlShow,
-                referenceTable: req.body.referenceTable,
-                fields: req.body.fields,
-            }
-
-
-            let data = await model.Update_If_Avilable_Else("tblQuotation", "tblQuotation", insertData, res)
-
-            // Send response based on the result of the database operation
-            data ?
-                res.send({ success: true, message: "Data inserted successfully....", data: data }) :
-                res.status(500).send({ success: false, message: "Data not inserted Successfully..." })
-
-
-        } catch (error) {
-            // Handle any errors during the process and send an error response
-            res.send({
-                success: false,
-                message: "Something went wrong",
-                data: error.message
-            })
-        }
-    },
-    addBooking: async (req, res) => {
-        try {
-
-            let insertData = {
-                _id: req.body._id,
-                name: req.body.name,
-                yourlabel: req.body.yourlabel,
-                controlname: req.body.controlname,
-                quotationid: req.body.quotationid,
-                referenceTable: req.body.referenceTable,
-                fields: req.body.fields,
-            }
-
-
-            let data = await model.Update_If_Avilable_Else("tblBooking", "tblBooking", insertData, res)
-
-            // Send response based on the result of the database operation
-            data ?
-                res.send({ success: true, message: "Data inserted successfully....", data: data }) :
-                res.status(500).send({ success: false, message: "Data not inserted Successfully..." })
-
-
-        } catch (error) {
-            // Handle any errors during the process and send an error response
-            res.send({
-                success: false,
-                message: "Something went wrong",
-                data: error.message
-            })
-        }
-    },
-    addInvoice: async (req, res) => {
-        try {
-
-            let insertData = {
-                _id: req.body._id,
-                name: req.body.name,
-                yourlabel: req.body.yourlabel,
-                controlname: req.body.controlname,
-                quotationid: req.body.quotationid,
-                referenceTable: req.body.referenceTable,
-                fields: req.body.fields,
-            }
-
-
-            let data = await model.Update_If_Avilable_Else("tblBooking", "tblBooking", insertData, res)
-
-            // Send response based on the result of the database operation
-            data ?
-                res.send({ success: true, message: "Data inserted successfully....", data: data }) :
-                res.status(500).send({ success: false, message: "Data not inserted Successfully..." })
-
-
-        } catch (error) {
-            // Handle any errors during the process and send an error response
-            res.send({
-                success: false,
-                message: "Something went wrong",
-                data: error.message
-            })
-        }
-    },
+    }
 }

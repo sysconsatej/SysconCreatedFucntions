@@ -45,6 +45,7 @@ const FormRouter = require('./src/routes/FormRoute');
 const menuRouter = require('./src/routes/menuRoute');
 const roleRouter = require('./src/routes/roleRouter');
 const userRouter = require('./src/routes/userRoute');
+const NoGenerationRoutes = require('./src/routes/NoGenerationRoutes');
 const dynamicRouterMiddleware = require('./src/routes/SingleinsertRoute'); // Adjust path as needed
 //const dynamicRouterMiddleware = require('./src/routes/SingleinsertRoute') 
 
@@ -104,6 +105,7 @@ app.use("/api/FormControl", FormRouter);
 app.use("/api/menuControl", menuRouter);
 app.use("/api/roleControl", roleRouter);
 app.use("/api/userControl", userRouter);
+app.use("/api/NoGeneration", NoGenerationRoutes);
 
 
 

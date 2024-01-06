@@ -113,36 +113,6 @@ function getNestedProperty(obj, propertyPath) {
         return currentObject && currentObject[key] !== undefined ? currentObject[key] : null;
     }, obj);
 }
-async function validateReference(field, value, model) {
-   if (value!==""&&value!==null) {
-    const referenceTable = field.referenceTable.split('.');
-    let _matchdata = { status: 1, [referenceTable.slice(1).join('.')]: value };
-    const dropdownQuery = [{ $match: _matchdata }];
-
-    for (let i = 1; i < referenceTable.length; i++) {
-        let path
-        if (i !== referenceTable.length - 1) {
-            path = referenceTable.slice(1, i + 1).join('.');
-            let project = {}
-            project[`${path}`] = `$${path}`
-            dropdownQuery.push({ $unwind: { path: `$${path}`, preserveNullAndEmptyArrays: false } });
-
-        }
-
-    }
-    // Perform the aggregation query
-    let data = await model.AggregateFetchData(referenceTable[0], referenceTable[0], dropdownQuery);
-
-    // Return true if any documents are found, otherwise false
-    return data.length > 0;
-    
-   }
-   else{
-    return true
-   }
-}
-
-
 
 
 module.exports = {
@@ -166,7 +136,7 @@ module.exports = {
                     let insertData = {}
                     insertData.id = req.body.id || ""
                     insertData.tableName = req.body.tableName,
-                        insertData.isDelete = req.body.isDelete
+                    insertData.isDelete = req.body.isDelete
                     if (Array.isArray(req.body.fields)) {
                         insertData.fields = req.body.fields
                     }
@@ -175,15 +145,11 @@ module.exports = {
                     }
                     insertData.children = req.body.children
                     insertData.fields = req.body.fields
-                    insertData.updatedBy = req.body.updatedBy || null
-                    insertData.createdBy = req.body.createdBy || null
-                    insertData.status = req.body.status || 1
-                    // insertData.updatedDate = new Date(req.body.updatedDate)|| new Date()
                     insertData.indexes = req.body.indexes || null
                     // Check for Chidren Exist or Not
                     for (let field of insertData.fields) {
                         let validateField = insertData.fields.filter(f => f.fieldname === field.fieldname)
-                        if (validateField.length > 1) {
+                        if(validateField.length > 1){
                             return res.status(403).send({
                                 success: false,
                                 message: "Duplicate Field Name Found....!",
@@ -193,22 +159,22 @@ module.exports = {
                     }
                     if (Array.isArray(req.body.children)) {
                         insertData.children = req.body.children
-                        for (const childData of insertData.children) {
+                       for (const childData of insertData.children) {
                             for (const childField of childData.fields) {
                                 let validateField = childData.fields.filter(f => f.fieldname === childField.fieldname)
-                                if (validateField.length > 1) {
+                                if(validateField.length > 1){
                                     return res.status(403).send({
                                         success: false,
                                         message: "Duplicate Field Name Found....!",
                                         data: `${childData.tableName}.${childField.fieldname}`
                                     })
                                 }
-
+                                
                             }
                             for (const subChild of childData.subChildren) {
                                 for (const subChildField of subChild.fields) {
                                     let validateField = subChild.fields.filter(f => f.fieldname === subChildField.fieldname)
-                                    if (validateField.length > 1) {
+                                    if(validateField.length > 1){
                                         return res.status(403).send({
                                             success: false,
                                             message: "Duplicate Field Name Found....!",
@@ -216,9 +182,9 @@ module.exports = {
                                         })
                                     }
                                 }
-
+                                
                             }
-                        }
+                       }
                     }
                     else {
                         // if not exist then create
@@ -230,16 +196,8 @@ module.exports = {
                     let findparent = findFieldWithNewName([insertData])
                     // if Below Condition is true then it means there is any key to rename , Add ,or delete on the base of "newName" , "newField" and Status respectively in Child and subchild and parent
                     if (findChildAndSubchild !== null || findparent !== null) {
-                        if (connection.models[req.body.tableName]) {
-                            delete connection.models[req.body.tableName];
-                            // delete connection.modelSchemas[req.body.tableName];
-                        }
 
                         let modell = connection.model(req.body.tableName, Schema.any);
-                        if (connection.models[req.body.tableName]) {
-                            modell = connection.models[req.body.tableName] = connection.model(req.body.tableName, Schema.any);
-
-                        }
                         let _unset = {};
                         let collectionData = await model.AggregateFetchData(req.body.tableName, req.body.tableName, [{ $match: { status: 1 } }], res);
 
@@ -311,7 +269,7 @@ module.exports = {
 
                     // res.send({ success: true, data: insertData })
                     // return
-                    let data = await model.Update_If_Avilable_Else_Insert("master_schema", "master_schema", insertData, {}, res)
+                    let data = await model.Update_If_Avilable_Else_Insert("master_schema", "master_schema", insertData,{} ,res)
                     data ? res.send({ success: true, message: "Data inserted successfully....", data: data }) : res.status(500).send({ success: false, message: "Data not inserted Successfully..." })
                 } catch (error) {
                     res.status(500).send({
@@ -410,166 +368,179 @@ module.exports = {
     Create_mater: async (req, res) => {
         try {
             const validationRule = {
-
+                
             }
-            if (req.body.id && req.body.id != undefined && req.body.id !== "") {
-
-
+            if (req.body.id&&req.body.id!=undefined&&req.body.id!=="") {
+                
+                
             }
-            else {
-                validationRule.tableName = "required"
+            else{
+                validationRule.tableName="required"
             }
-            if (Array.isArray(req.body)) {
-                const records = req.body
-                let finalerror = []
-                let finaldata = []
+            if(Array.isArray(req.body)){
+               const records=req.body
+               let finalerror=[]
+               let finaldata=[]
                 let query = [
-                    {
-                        $match: {
-                            tableName: req.body[0].tableName,
-                            status: Number(process.env.ACTIVE_STATUS)
-                        }
-                    },
-                    {
-                        $project: {
-                            _id: 1,
-                            id: 1,
-                            status: 1,
-                            __v: 1,
-                            add_by: 1,
-                            add_dt: 1,
-                            children: {
-                                $map: {
-                                    input: "$children",
-                                    as: "child",
-                                    in: {
-                                        tableName: "$$child.tableName",
-                                        _id: "$$child._id",
-                                        fields: {
-                                            $filter: {
-                                                input: "$$child.fields",
-                                                as: "field",
-                                                cond: { $eq: ["$$field.status", 1] }
-                                            }
-                                        },
-                                        subChildren: {
-                                            $map: {
-                                                input: "$$child.subChildren",
-                                                as: "subChild",
-                                                in: {
-                                                    tableName: "$$subChild.tableName",
-                                                    _id: "$$subChild._id",
-                                                    fields: {
-                                                        $filter: {
-                                                            input: "$$subChild.fields",
-                                                            as: "subField",
-                                                            cond: { $eq: ["$$subField.status", 1] }
+                        {
+                            $match: {
+                                tableName: req.body[0].tableName,
+                                status: Number(process.env.ACTIVE_STATUS)
+                            }
+                        },
+                        {
+                            $project: {
+                                _id: 1,
+                                id: 1,
+                                status: 1,
+                                __v: 1,
+                                add_by: 1,
+                                add_dt: 1,
+                                children: {
+                                    $map: {
+                                        input: "$children",
+                                        as: "child",
+                                        in: {
+                                            tableName: "$$child.tableName",
+                                            _id: "$$child._id",
+                                            fields: {
+                                                $filter: {
+                                                    input: "$$child.fields",
+                                                    as: "field",
+                                                    cond: { $eq: ["$$field.status", 1] }
+                                                }
+                                            },
+                                            subChildren: {
+                                                $map: {
+                                                    input: "$$child.subChildren",
+                                                    as: "subChild",
+                                                    in: {
+                                                        tableName: "$$subChild.tableName",
+                                                        _id: "$$subChild._id",
+                                                        fields: {
+                                                            $filter: {
+                                                                input: "$$subChild.fields",
+                                                                as: "subField",
+                                                                cond: { $eq: ["$$subField.status", 1] }
+                                                            }
                                                         }
                                                     }
                                                 }
                                             }
                                         }
                                     }
-                                }
-                            },
-                            fields: {
-                                $filter: {
-                                    input: "$fields",
-                                    as: "field",
-                                    cond: { $eq: ["$$field.status", 1] }
-                                }
-                            },
-                            tableName: 1,
-                            updated_by: 1,
-                            updated_dt: 1,
-                            indexes: 1
-                        }
-                    }
-                ]
-
-                let data_for_validation = await model.AggregateFetchData("master_schema", "master_schema", query, res)// Fethching the data from master schema
-
-                if (data_for_validation.length == 0) {
-                    // Creating Dynamic Validation Rules according to master schema data
-                    return res.status(403).send({
-                        success: false,
-                        message: "Schema Not Found",
-                        data: []
-                    })
-                }
-                let insertData = {
-                    id: { type: Number, required: true, default: 0 },
-                    status: { type: Number, required: true, default: 1 },
-                    createdDate: { type: Date, required: true, default: Date.now() },
-                    createdBy: { type: String, required: false, default: null },
-                    updatedDate: { type: Date, required: true, default: Date.now() },
-                    updatedBy: { type: String, required: false, default: null },
-                }
-                data_for_validation[0].fields.forEach((field) => {
-                    let properties = {
-                        required: field.isRequired,
-                        default: field.defaultValue
-                    }
-                    field.type.toLowerCase() == "string" ? properties.type = String : null
-                    field.type.toLowerCase() == "number" ? properties.type = Number : null
-                    field.type.toLowerCase() == "file" ? properties.type = String : null
-                    field.isUnique && field.isUnique ? properties.unique = true : null
-                    field.index && field.index == 1 ? properties.index = 'asc' : null
-                    if (field.referenceTable !== null) {
-                        properties.ref = field.referenceTable
-                        properties.validate = {
-                            validator: async (value) => {
-                                return await validateReference(field, value, model);
-
-                                // return checkDocumentExists(this[field.fieldname].ref,value)
-                            },
-                            message: `Value of ${field.fieldname} is not exist in reference table ${field.referenceTable}`
-                        }
-
-                    }
-
-                    insertData[field.fieldname] = properties
-                });
-                // Creating the JSON of Child to insert into the master
-                data_for_validation[0].children.forEach((child) => {
-                    insertData[child.tableName] = [{}]
-
-                    child.fields.forEach((field) => {
-
-                        let properties = {
-                            required: field.isRequired,
-                            default: field.defaultValue
-                        }
-                        field.type.toLowerCase() == "string" ? properties.type = String : null
-                        field.type.toLowerCase() == "number" ? properties.type = Number : null
-                        insertData[child.tableName][0][field.fieldname] = properties
-                    })
-                    child.subChildren.forEach((subChild) => {
-                        insertData[child.tableName][0][subChild.tableName] = [{}]
-                        subChild.fields.forEach((field) => {
-                            let properties = {
-                                required: field.isRequired,
-                                default: field.defaultValue
+                                },
+                                fields: {
+                                    $filter: {
+                                        input: "$fields",
+                                        as: "field",
+                                        cond: { $eq: ["$$field.status", 1] }
+                                    }
+                                },
+                                tableName: 1,
+                                updated_by: 1,
+                                updated_dt: 1,
+                                indexes: 1
                             }
-                            field.type.toLowerCase() == "string" ? properties.type = String : null
-                            field.type.toLowerCase() == "number" ? properties.type = Number : null
-                            insertData[child.tableName][0][subChild.tableName][0][field.fieldname] = properties
-                            // console.log(insertData[child.tableName][0][subChild.tableName][0]);
+                        }
+                    ]
+
+                    let data_for_validation = await model.AggregateFetchData("master_schema", "master_schema", query, res)// Fethching the data from master schema
+                    
+                    if (data_for_validation.length == 0) {
+                        // Creating Dynamic Validation Rules according to master schema data
+                        return res.status(403).send({
+                            success: false,
+                            message: "Schema Not Found",
+                            data: []
                         })
-                    })
-                    // console.log(insertData[child.tableName][0]);
-                });
-                console.log(insertData);
+                    }
+                   
+               for (const record of records) {
+                // console.log(index++);
+                let ValidationRules_for_tables = {}
+                validate(record, validationRule, {}, async (err, status) => {
+                    if (!status) {
+                        finalerror.push({success:false,Message:"Validation Error...!",data:err});
+                       
+                    } else {
+                        data_for_validation[0].fields.map((validation) => {
+                            validation.isRequired == true ? ValidationRules_for_tables[validation.fieldname] = "required" : ""
+                        })
+            
+                        // Validating the Dynamic Validation Rules according to master schema if validation is true then else condition will be executed
+                        validate(record, ValidationRules_for_tables, {}, async (err, status) => {
+                            if (!status) {
+                                // res.status(403).send({
+                                //     success: false,
+                                //     Message: "Validation Error...!",
+                                //     data: err
+                                // })
+                                finalerror.push({success:false,Message:"Validation Error...!",data:err});
+                            }
+                            else {
+                                let todays_dt = moment().format("YYYY-MM-DD HH:mm:ss")
+                                // let insertData = {}
+                                const insertData = {
+                                    id: record.id || '',
+                                    createdDate: todays_dt,
+                                    isDelete : req.body.isDelete,
+                                    tableName : req.body.tableName,
+                                    createdBy: record.createdBy,
+                                    updatedDate: todays_dt,
+                                    updatedBy: record.updatedBy,
+                                };
+                                // Create the JSON of Parent to insert into the master
+                                data_for_validation[0].fields.forEach((field) => {
+                                    insertData[field.fieldname] = record[field.fieldname] || field.defaultValue;
+                                });
+                                // Creating the JSON of Child to insert into the master
+                                data_for_validation[0].children.forEach((child) => {
+                                    insertData[child.tableName] = (record[child.tableName] || []).map((values) => {
+                                        const tempObject = { id: new mongoose.Types.ObjectId() };
 
-                let data = await model.Update_If_Avilable_Else_Insert_master_Bulk(req.body[0].tableName, insertData, req.body, res)
-                return res.send({
-                    success: true,
-                    message: "Data Inserted Successfully",
-                    data: data
+                                        child.fields.forEach((child_fields) => {
+                                            tempObject[child_fields.fieldname] = values[child_fields.fieldname] || child_fields.defaultValue;
+                                        });
+                                        // Creating the JSON of SubChild to insert into the master
+                                        child.subChildren.forEach((subChild) => {
+                                            tempObject[subChild.tableName] = (values[subChild.tableName] || []).map((values) => {
+                                                const subChildObject = { id: new mongoose.Types.ObjectId() };
+                                                subChild.fields.forEach((subChild_fields) => {
+                                                    subChildObject[subChild_fields.fieldname] = values[subChild_fields.fieldname] || subChild_fields.defaultValue;
+                                                });
+                                                return subChildObject;
+                                            });
+                                        })
+
+
+
+                                        return tempObject;
+                                    });
+                                });
+                                finaldata.push(insertData)
+
+                            }
+                        })
+                    }
                 })
-
-
-
+               }
+            //    console.log(finaldata);
+               let insertdata= await model.AddData(req.body[0].tableName, req.body[0].tableName, finaldata, res)
+               if (insertdata.length>0) {
+                    return res.status(200).send({
+                        success: true,
+                        message: "Data Inserted Successfully",
+                        data: insertdata,
+                        erro:finalerror
+                    })
+               }else{
+                return res.status(200).send({
+                    success: true,
+                    message: "Data not Inserted Successfully",
+                    data: finalerror
+                })
+               }
             }
             console.log(validationRule);
             // Check For the validation of Table Name if table name exists then else condition will be executed
@@ -666,169 +637,75 @@ module.exports = {
                                 })
                             }
                             else {
-                                try {
-                                    let todays_dt = moment().format("YYYY-MM-DD HH:mm:ss")
-                                    // let insertData = {}
-                                    const insertData = {
-                                        id: req.body.id || '',
-                                        createdDate: todays_dt,
-                                        isDelete: req.body.isDelete,
-                                        tableName: req.body.tableName,
-                                        createdBy: req.body.createdBy,
-                                        status: Number(req.body.status) || Number(process.env.ACTIVE_STATUS),
-                                        updatedDate: todays_dt,
-                                        updatedBy: req.body.updatedBy,
-                                    };
-                                    let schemaObj = {
-                                        id: { type: Number, required: true, default: 0 },
-                                        status: { type: Number, required: true, default: 1 },
-                                        createdDate: { type: Date, required: true, default: Date.now() },
-                                        createdBy: { type: String, required: false, default: null },
-                                        updatedDate: { type: Date, required: true, default: Date.now() },
-                                        updatedBy: { type: String, required: false, default: null },
-
+                                let todays_dt = moment().format("YYYY-MM-DD HH:mm:ss")
+                                // let insertData = {}
+                                const insertData = {
+                                    id: req.body.id || '',
+                                    createdDate: todays_dt,
+                                    isDelete : req.body.isDelete,
+                                    tableName : req.body.tableName,
+                                    createdBy: req.body.createdBy,
+                                    updatedDate: todays_dt,
+                                    updatedBy: req.body.updatedBy,
+                                };
+                                // Create the JSON of Parent to insert into the master
+                                data_for_validation[0].fields.forEach((field) => {
+                                    if (field.type.toLowerCase()=="file") {
+                                        if (req.files && req.files !== null && req.files[field.fieldname]) {
+                                            var element = req.files[field.fieldname];
+                                            var image_name = moment().format("YYYYMMDDHHmmss") + element.name;
+                                            element.mv(`./public/api/images/` + image_name.trim());
+                                            var doc_data = image_name;
+                                            insertData[field.fieldname] = image_name
+                                        }
+                                    }else
+                                    {
+                                        insertData[field.fieldname] = req.body[field.fieldname] || field.defaultValue;
                                     }
-                                    // Create the JSON of Parent to insert into the master
-                                    data_for_validation[0].fields.forEach((field) => {
-                                        if (field.type.toLowerCase() == "file") {
-                                            if (req.files && req.files !== null && req.files[field.fieldname]) {
-                                                var element = req.files[field.fieldname];
-                                                var image_name = moment().format("YYYYMMDDHHmmss") + element.name;
-                                                element.mv(`./public/api/images/` + image_name.trim());
-                                                var doc_data = image_name;
-                                                insertData[field.fieldname] = image_name
-                                            }
-                                        } else {
-                                            insertData[field.fieldname] = req.body[field.fieldname] || field.defaultValue;
-                                        }
-                                        let properties = {
-                                            required: field.isRequired,
-                                            default: field.defaultValue
-                                        }
-                                        field.type.toLowerCase() == "string" ? properties.type = String : null
-                                        field.type.toLowerCase() == "number" ? properties.type = Number : null
-                                        field.type.toLowerCase() == "file" ? properties.type = String : null
-                                        field.isUnique && field.isUnique ? properties.unique = true : null
-                                        field.index && field.index == 1 ? properties.index = 'asc' : null
-                                        if (field.referenceTable !== null) {
-                                            properties.ref = field.referenceTable
-                                            properties.validate = {
-                                                validator: async (value) => {
-                                                    return await validateReference(field, value, model);
+                                    
+                                });
+                                // Creating the JSON of Child to insert into the master
+                                data_for_validation[0].children.forEach((child) => {
+                                    insertData[child.tableName] = (req.body[child.tableName] || []).map((values) => {
+                                        const tempObject = { id: new mongoose.Types.ObjectId() };
 
-                                                    // return checkDocumentExists(this[field.fieldname].ref,value)
-                                                },
-                                                message: `Value of ${field.fieldname} is not exist in reference table ${field.referenceTable}`
-                                            }
-
-                                        }
-                                        schemaObj[field.fieldname] = properties
-
-                                    });
-                                    // Creating the JSON of Child to insert into the master
-                                    data_for_validation[0].children.forEach((child) => {
-                                        insertData[child.tableName] = (req.body[child.tableName] || []).map((values) => {
-                                            const tempObject = { id: new mongoose.Types.ObjectId() };
-
-                                            child.fields.forEach((child_fields) => {
-                                                tempObject[child_fields.fieldname] = values[child_fields.fieldname] || child_fields.defaultValue;
-                                            });
-                                            // Creating the JSON of SubChild to insert into the master
-                                            child.subChildren.forEach((subChild) => {
-                                                tempObject[subChild.tableName] = (values[subChild.tableName] || []).map((values) => {
-                                                    const subChildObject = { id: new mongoose.Types.ObjectId() };
-                                                    subChild.fields.forEach((subChild_fields) => {
-                                                        subChildObject[subChild_fields.fieldname] = values[subChild_fields.fieldname] || subChild_fields.defaultValue;
-                                                    });
-                                                    return subChildObject;
-                                                });
-                                            })
-
-
-
-                                            return tempObject;
+                                        child.fields.forEach((child_fields) => {
+                                            tempObject[child_fields.fieldname] = values[child_fields.fieldname] || child_fields.defaultValue;
                                         });
-                                    });
-                                    // dynamic schema validation
-                                    data_for_validation[0].children.forEach((child) => {
-                                        schemaObj[child.tableName] = [{}]
-
-                                        child.fields.forEach((field) => {
-
-                                            let properties = {
-                                                required: field.isRequired,
-                                                default: field.defaultValue
-                                            }
-                                            field.type.toLowerCase() == "string" ? properties.type = String : null
-                                            field.type.toLowerCase() == "number" ? properties.type = Number : null
-                                            if (field.referenceTable !== null) {
-                                                properties.ref = field.referenceTable
-                                                properties.validate = {
-                                                    validator: async (value) => {
-                                                        return await validateReference(field, value, model);
-
-                                                        // return checkDocumentExists(this[field.fieldname].ref,value)
-                                                    },
-                                                    message: `Value of ${field.fieldname} is not exist in reference table ${field.referenceTable}`
-                                                }
-
-                                            }
-                                            schemaObj[child.tableName][0][field.fieldname] = properties
-                                        })
+                                        // Creating the JSON of SubChild to insert into the master
                                         child.subChildren.forEach((subChild) => {
-                                            schemaObj[child.tableName][0][subChild.tableName] = [{}]
-                                            subChild.fields.forEach((field) => {
-                                                let properties = {
-                                                    required: field.isRequired,
-                                                    default: field.defaultValue
-                                                }
-
-                                                field.type.toLowerCase() == "string" ? properties.type = String : null
-                                                field.type.toLowerCase() == "number" ? properties.type = Number : null
-                                                if (field.referenceTable !== null) {
-                                                    properties.ref = field.referenceTable
-                                                    properties.validate = {
-                                                        validator: async (value) => {
-                                                            return await validateReference(field, value, model);
-
-                                                            // return checkDocumentExists(this[field.fieldname].ref,value)
-                                                        },
-                                                        message: `Value of ${field.fieldname} is not exist in reference table ${field.referenceTable}`
-                                                    }
-
-                                                }
-                                                schemaObj[child.tableName][0][subChild.tableName][0][field.fieldname] = properties
-                                                // console.log(insertData[child.tableName][0][subChild.tableName][0]);
-                                            })
+                                            tempObject[subChild.tableName] = (values[subChild.tableName] || []).map((values) => {
+                                                const subChildObject = { id: new mongoose.Types.ObjectId() };
+                                                subChild.fields.forEach((subChild_fields) => {
+                                                    subChildObject[subChild_fields.fieldname] = values[subChild_fields.fieldname] || subChild_fields.defaultValue;
+                                                });
+                                                return subChildObject;
+                                            });
                                         })
-                                        // console.log(insertData[child.tableName][0]);
+
+
+
+                                        return tempObject;
                                     });
+                                });
 
-                                    console.log(schemaObj);
-                                    // Inserting the data into master if not exist else update on the basis of id and status=1
-                                    let result = await model.Update_If_Avilable_Else_Insert_master(req.body.tableName, schemaObj, insertData, data_for_validation[0].indexes, res)
-                                    if (result) {
-                                        res.send({
-                                            success: true,
-                                            message: "Submit Successfully..!",
-                                            data: result
-                                        })
-                                    }
-                                    else {
-                                        res.status(500).send({
-                                            success: false,
-                                            message: "Data Not Inserted Successfull....!",
-                                            data: []
-                                        })
-                                    }
-
-                                } catch (error) {
-                                    res.status(500).send({
-                                        success: false,
-                                        message: "something Went Worng...!",
-                                        data: error.message
+                                // Inserting the data into master if not exist else update on the basis of id and status=1
+                                let result = await model.Update_If_Avilable_Else_Insert_master(req.body.tableName, req.body.tableName, insertData, data_for_validation[0].indexes, res)
+                                if (result) {
+                                    res.send({
+                                        success: true,
+                                        message: "Data inserted Successfully..!",
+                                        data: result
                                     })
                                 }
+                                else {
+                                    res.status(500).send({
+                                        success: false,
+                                        message: "Data Not Inserted Successfull....!",
+                                        data: []
+                                    })
+                                }
+
                             }
                         })
                     }
@@ -865,7 +742,7 @@ module.exports = {
                 }
                 // Fetching the validation data from master schema e.g. Shcema
                 let FetchRules = await model.AggregateFetchData("master_schema", "master_schema", [{ $match: { tableName: req.body.tableName, status: Number(process.env.ACTIVE_STATUS) } }], res)
-                let data = await model.AggregateFetchData(req.body.tableName, req.body.tableName, [{ $match: _matchdata }, { $sort: { id: 1 } }], res) // fetching the data from master table
+                let data = await model.AggregateFetchData(req.body.tableName, req.body.tableName, [{ $match: _matchdata }], res) // fetching the data from master table
 
                 if (FetchRules.length > 0) {
                     let field = FetchRules[0].fields.filter((field) => field.referenceTable !== null);// filtering the fields with reference table is not null of parent
