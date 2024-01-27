@@ -1,6 +1,6 @@
 node_modules/
 public/
 src/controller/backups/
-log.txt
-package-lock.json
+.log.txt
+.package-lock.json
 .env

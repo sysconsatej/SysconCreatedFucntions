@@ -1,7 +1,7 @@
 {
     "client": "Thunder Client",
     "collectionName": "Syscon",
-    "dateExported": "2024-01-08T06:15:45.324Z",
+    "dateExported": "2023-12-28T10:40:45.509Z",
     "version": "1.1",
     "folders": [
         {
@@ -38,13 +38,6 @@
             "containerId": "",
             "created": "2023-12-14T10:52:46.742Z",
             "sortNum": 60000
-        },
-        {
-            "_id": "7126d9bc-260d-4e9b-9ae2-9448a90a4f23",
-            "name": "NoGenetartionRules",
-            "containerId": "",
-            "created": "2024-01-04T11:40:46.128Z",
-            "sortNum": 70000
         }
     ],
     "requests": [
@@ -57,12 +50,12 @@
             "method": "POST",
             "sortNum": 30000,
             "created": "2023-12-12T07:56:03.380Z",
-            "modified": "2024-01-05T10:39:09.676Z",
+            "modified": "2023-12-28T09:51:18.164Z",
             "headers": [],
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{ \n  \"tableName\": \"demoTable\",\n  \"children\": [\n    {\n      \"tableName\": \"CompanyAddress\",\n      \"fields\": [\n        {\n          \"fieldname\": \"country\",\n          \"defaultValue\": null,\n          \"status\": 1,\n          \"type\": \"string\",\n          \"size\": 5,\n          \"referenceTable\": \"tblCountry.name\"\n        },\n        {\n          \"fieldname\": \"state\",\n          \"defaultValue\": null,\n          \"status\": 1,\n          \"type\": \"string\",\n          \"size\": 3,\n          \"referenceTable\": \"tblCountry.tblState.name\"\n        },\n        {\n          \"fieldname\": \"city\",\n          \"defaultValue\": null,\n          \"status\": 1,\n          \"type\": \"string\",\n          \"size\": 50,\n          \"referenceTable\": \"tblCountry.tblState.tblCity.name\"\n        }\n      ],\n      \"subChildren\": [\n        {\n          \"tableName\": \"Ownerdetails\",\n          \"fields\": [\n            {\n              \"fieldname\": \"name\",\n              \"defaultValue\": null,\n              \"status\": 1,\n              \"type\": \"string\",\n              \"size\": 50,\n              \"referenceTable\": null\n            },\n            {\n              \"fieldname\": \"Date\",\n              \"defaultValue\": null,\n              \"status\": 1,\n              \"type\": \"string\",\n              \"size\": null,\n              \"referenceTable\": null\n            }\n          ]\n        }\n      ]\n    }\n  ],\n  \"fields\": [\n    {\n      \"fieldname\": \"name\",\n      \"defaultValue\": null,\n      \"status\": 1,\n      \"isRequired\": true,\n      \"index\": 0,\n      \"type\": \"string\",\n      \"size\": 5,\n      \"referenceTable\": null,\n      \"isUnique\": false\n    },\n    {\n      \"fieldname\": \"project\",\n      \"defaultValue\": null,\n      \"status\": 1,\n      \"isRequired\": true,\n      \"index\": 1,\n      \"type\": \"string\",\n      \"size\": 50,\n      \"referenceTable\": null\n    },\n    {\n      \"fieldname\": \"projectDecription\",\n      \"defaultValue\": null,\n      \"status\": 1,\n      \"isRequired\": false,\n      \"type\": \"string\",\n      \"size\": 10,\n      \"referenceTable\": null\n    }\n  ]\n}",
+                "raw": " {\n      \"id\": 9,\n      \"indexes\": null,\n      \"tableName\": \"tblSysconDemo\",\n      \"children\": [\n        {\n          \"tableName\": \"tblState\",\n          \"fields\": [\n            {\n              \"fieldname\": \"code\",\n              \"defaultValue\": null,\n              \"status\": 1,\n              \"type\": \"string\",\n              \"size\": 5,\n              \"referenceTable\": null\n            },\n            {\n              \"fieldname\": \"taxStateCode\",\n              \"defaultValue\": null,\n              \"status\": 1,\n              \"type\": \"string\",\n              \"size\": 3,\n              \"referenceTable\": null\n            },\n            {\n              \"fieldname\": \"name\",\n              \"defaultValue\": null,\n              \"status\": 1,\n              \"type\": \"string\",\n              \"size\": 50,\n              \"referenceTable\": null\n            }\n          ],\n          \"subChildren\": []\n        },\n        {\n          \"tableName\": \"tblCity\",\n         \n          \"fields\": [\n            {\n              \"fieldname\": \"name\",\n              \"defaultValue\": null,\n              \"status\": 1,\n              \"type\": \"string\",\n              \"size\": 50,\n              \"referenceTable\": null\n            },\n            {\n              \"fieldname\": \"tblStateId\",\n              \"defaultValue\": null,\n              \"status\": 1,\n              \"type\": \"Number\",\n              \"size\": null,\n              \"referenceTable\": null\n            },\n            {\n              \"fieldname\": \"cityPhoneCode\",\n              \"defaultValue\": null,\n              \"status\": 1,\n              \"type\": \"string\",\n              \"size\": 10,\n              \"referenceTable\": null\n            },\n            {\n              \"fieldname\": \"code\",\n              \"defaultValue\": null,\n              \"status\": 1,\n              \"type\": \"string\",\n              \"size\": 50,\n              \"referenceTable\": null\n            }\n          ],\n          \"subChildren\": []\n        }\n      ],\n      \"fields\": [\n        {\n          \"fieldname\": \"code\",\n          \"defaultValue\": null,\n          \"status\": 1,\n          \"isRequired\": true,\n          \"index\":0,\n          \"type\": \"string\",\n          \"size\": 5,\n          \"referenceTable\": null,\n          \"isUnique\":true\n        },\n        {\n          \"fieldname\": \"name\",\n          \"defaultValue\": null,\n          \"status\": 1,\n          \"isRequired\": true,\n          \"index\":1,\n          \"type\": \"string\",\n          \"size\": 50,\n          \"referenceTable\": null\n        },\n        {\n          \"fieldname\": \"countryPhoneCode\",\n          \"defaultValue\": null,\n          \"status\": 1,\n          \"isRequired\": false,\n          \"type\": \"string\",\n          \"size\": 10,\n          \"referenceTable\": null\n        },\n        {\n          \"fieldname\": \"blacklist\",\n          \"defaultValue\": null,\n          \"status\": 1,\n          \"isRequired\": false,\n          \"type\": \"string\",\n          \"size\": 1,\n          \"referenceTable\": null\n        },\n        {\n          \"fieldname\": \"activeInactive\",\n          \"defaultValue\": null,\n          \"status\": 1,\n          \"isRequired\": false,\n          \"type\": \"string\",\n          \"size\": 1,\n          \"referenceTable\": null\n        }\n     ]\n    }",
                 "form": []
             },
             "tests": []
@@ -96,12 +89,12 @@
             "method": "POST",
             "sortNum": 50000,
             "created": "2023-12-12T07:56:03.382Z",
-            "modified": "2024-01-08T06:12:34.158Z",
+            "modified": "2023-12-28T10:27:20.878Z",
             "headers": [],
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "[\n  {\n    \"tableName\": \"demoTable\",\n    \"name\": \"syscon\",\n    \"project\": \"LLS\",\n    \"projectDecription\": \"projectDecription\",\n    \"CompanyAddress\": [\n      {\n        \"country\": \"ISRAEL\",\n        \"state\": \"id1statename\",\n        \"city\": \"id1CityName\",\n        \"Ownerdetails\": [\n          {\n            \"name\": \"kunal\",\n            \"Date\": \"2024-01-03\"\n          }\n        ]\n      }\n    ]\n  },\n  {\n    \"tableName\": \"demoTable\",\n    \"name\": \"syscon1\",\n    \"project\": \"LLS\",\n    \"projectDecription\": \"projectDecription\",\n    \"CompanyAddress\": [\n      {\n        \"country\": \"ISRAEL\",\n        \"state\": \"id1statename\",\n        \"city\": \"id1CityName\",\n        \"Ownerdetails\": [\n          {\n            \"name\": \"kunal\",\n            \"Date\": \"2024-01-03\"\n          }\n        ]\n      }\n    ]\n  },\n  {\n    \"tableName\": \"demoTable\",\n    \"name\": \"syscon2\",\n    \"project\": \"LLS\",\n    \"projectDecription\": \"projectDecription\",\n    \"CompanyAddress\": [\n      {\n        \"country\": \"ISRAEL\",\n        \"state\": \"id1statename\",\n        \"city\": \"id1CityName\",\n        \"Ownerdetails\": [\n          {\n            \"name\": \"kunal\",\n            \"Date\": \"2024-01-03\"\n          }\n        ]\n      }\n    ]\n  }\n]",
+                "raw": "\n  {\n    \"code\": \"de\",\n    \"name\": \"ISAEL\",\n    \"countryPhoneCode\": \"null\",\n    \"blacklist\": \"n\",\n    \"activeInactive\": \"y\",\n    \"tblState\": [],\n    \"tblCity\": [],\n    \"tableName\": \"tblCountry\"\n  }\n",
                 "form": []
             },
             "tests": []
@@ -115,12 +108,12 @@
             "method": "POST",
             "sortNum": 70000,
             "created": "2023-12-12T07:56:03.383Z",
-            "modified": "2024-01-05T07:34:25.362Z",
+            "modified": "2023-12-28T10:12:43.501Z",
             "headers": [],
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{\n  \"id\": 1,\n  \"tableName\": \"demoTable\",\n  \"menuID\": 1,\n  \"fields\": [\n    {\n      \"fieldname\": \"name\",\n      \"yourlabel\": \"Name\",\n      \"controlname\": \"text\",\n      \"isControlShow\": true,\n      \"referenceTable\": null,\n      \"referenceColumn\": null,\n      \"type\": \"String\",\n      \"size\": 100,\n      \"ordering\": 1,\n      \"isRequired\": true,\n      \"isEditable\": false,\n      \"dropdownFilter\": null,\n      \"controlDefaultValue\": null,\n      \"functionOnChange\": null,\n      \"functionOnBlur\": null,\n      \"functionOnKeyPress\": null,\n      \"sectionHeader\": null,\n      \"sectionOrder\": null\n    },\n    {\n      \"fieldname\": \"project\",\n      \"yourlabel\": \"Project Name\",\n      \"controlname\": \"text\",\n      \"isControlShow\": true,\n      \"referenceTable\": null,\n      \"referenceColumn\": null,\n      \"type\": \"String\",\n      \"size\": 500,\n      \"ordering\": 2,\n      \"isRequired\": true,\n      \"isEditable\": true,\n      \"dropdownFilter\": null,\n      \"controlDefaultValue\": null,\n      \"functionOnChange\": null,\n      \"functionOnBlur\": null,\n      \"functionOnKeyPress\": null,\n      \"sectionHeader\": null,\n      \"sectionOrder\": null\n    },\n    {\n      \"fieldname\": \"projectDecription\",\n      \"yourlabel\": \"Project Description\",\n      \"controlname\": \"text\",\n      \"isControlShow\": true,\n      \"referenceTable\": null,\n      \"referenceColumn\": null,\n      \"type\": \"String\",\n      \"size\": 100,\n      \"ordering\": 3,\n      \"isRequired\": true,\n      \"isEditable\": true,\n      \"dropdownFilter\": null,\n      \"controlDefaultValue\": null,\n      \"functionOnChange\": null,\n      \"functionOnBlur\": null,\n      \"functionOnKeyPress\": null,\n      \"sectionHeader\": null,\n      \"sectionOrder\": null\n    }\n  ],\n  \"children\": [\n    {\n      \"tableName\": \"CompanyAddress\",\n      \"fields\": [\n        {\n          \"fieldname\": \"country\",\n          \"yourlabel\": \"Country Name\",\n          \"controlname\": \"dropdown\",\n          \"isControlShow\": true,\n          \"referenceTable\": \"tblCountry\",\n          \"referenceColumn\": \"name\",\n          \"type\": \"String\",\n          \"size\": 100,\n          \"ordering\": 1,\n          \"isRequired\": true,\n          \"isEditable\": false,\n          \"dropdownFilter\": null,\n          \"controlDefaultValue\": \"{name:ISRAEL}\",\n          \"functionOnChange\": null,\n          \"functionOnBlur\": null,\n          \"functionOnKeyPress\": null,\n          \"sectionHeader\": null,\n          \"sectionOrder\": null,\n          \"dropDownValues\": []\n        },\n        {\n          \"fieldname\": \"state\",\n          \"yourlabel\": \"State Name\",\n          \"controlname\": \"dropdown\",\n          \"isControlShow\": true,\n          \"referenceTable\": \"tblCountry.tblState\",\n          \"referenceColumn\": \"$tblState.name,@,name\",\n          \"type\": \"String\",\n          \"size\": 500,\n          \"ordering\": 2,\n          \"isRequired\": true,\n          \"isEditable\": true,\n          \"dropdownFilter\": null,\n          \"controlDefaultValue\": \"{tblState.name:id1statename}\",\n          \"functionOnChange\": null,\n          \"functionOnBlur\": null,\n          \"functionOnKeyPress\": null,\n          \"sectionHeader\": null,\n          \"sectionOrder\": null\n        },\n        {\n          \"fieldname\": \"city\",\n          \"yourlabel\": \"Cityid\",\n          \"controlname\": \"dropdown\",\n          \"isControlShow\": true,\n          \"referenceTable\": \"tblCountry.tblState.tblCity\",\n          \"referenceColumn\": \"$tblState.tblCity.name\",\n          \"type\": \"String\",\n          \"size\": 100,\n          \"ordering\": 3,\n          \"isRequired\": true,\n          \"isEditable\": true,\n          \"dropdownFilter\": null,\n          \"controlDefaultValue\": null,\n          \"functionOnChange\": null,\n          \"functionOnBlur\": null,\n          \"functionOnKeyPress\": null,\n          \"sectionHeader\": null,\n          \"sectionOrder\": null\n        }\n      ],\n      \"subChildren\": [\n        {\n          \"tableName\": \"Ownerdetails\",\n          \"fields\": [\n            {\n              \"fieldname\": \"name\",\n              \"yourlabel\": \"Name\",\n              \"controlname\": \"text\",\n              \"isControlShow\": true,\n              \"referenceTable\": null,\n              \"referenceColumn\": null,\n              \"type\": \"String\",\n              \"size\": 100,\n              \"ordering\": 1,\n              \"isRequired\": true,\n              \"isEditable\": false,\n              \"dropdownFilter\": null,\n              \"controlDefaultValue\": null,\n              \"functionOnChange\": null,\n              \"functionOnBlur\": null,\n              \"functionOnKeyPress\": null,\n              \"sectionHeader\": null,\n              \"sectionOrder\": null\n            },\n            {\n              \"fieldname\": \"Date\",\n              \"yourlabel\": \"Date\",\n              \"controlname\": \"Date\",\n              \"isControlShow\": true,\n              \"referenceTable\": null,\n              \"referenceColumn\": null,\n              \"type\": \"String\",\n              \"size\": 500,\n              \"ordering\": 2,\n              \"isRequired\": true,\n              \"isEditable\": true,\n              \"dropdownFilter\": null,\n              \"controlDefaultValue\": \"date.now()\",\n              \"functionOnChange\": null,\n              \"functionOnBlur\": null,\n              \"functionOnKeyPress\": null,\n              \"sectionHeader\": null,\n              \"sectionOrder\": null\n            }\n          ]\n        }\n      ]\n    }\n  ]\n}",
+                "raw": "{\n  \"id\": 1,\n  \"tableName\": \"tblSysconDemo\",\n  \"menuID\": 2,\n  \"fields\": [\n    {\n      \"fieldname\": \"code\",\n      \"yourlabel\": \"Code\",\n      \"controlname\": \"text\",\n      \"isControlShow\": true,\n      \"referenceTable\": null,\n      \"referenceColumn\": null,\n      \"type\": \"String\",\n      \"size\": 100,\n      \"ordering\": 1,\n      \"isRequired\": true,\n      \"isEditable\": false,\n      \"dropdownFilter\": null,\n      \"controlDefaultValue\": null,\n      \"functionOnChange\": null,\n      \"functionOnBlur\": null,\n      \"functionOnKeyPress\": null,\n      \"sectionHeader\": null,\n      \"sectionOrder\": null\n    },\n    {\n      \"fieldname\": \"name\",\n      \"yourlabel\": \"Name\",\n      \"controlname\": \"text\",\n      \"isControlShow\": true,\n      \"referenceTable\": null,\n      \"referenceColumn\": null,\n      \"type\": \"String\",\n      \"size\": 500,\n      \"ordering\": 2,\n      \"isRequired\": true,\n      \"isEditable\": true,\n      \"dropdownFilter\": null,\n      \"controlDefaultValue\": null,\n      \"functionOnChange\": null,\n      \"functionOnBlur\": null,\n      \"functionOnKeyPress\": null,\n      \"sectionHeader\": null,\n      \"sectionOrder\": null\n    },\n    {\n      \"fieldname\": \"countryPhoneCode\",\n      \"yourlabel\": \"Phone Code\",\n      \"controlname\": \"text\",\n      \"isControlShow\": true,\n      \"referenceTable\": null,\n      \"referenceColumn\": null,\n      \"type\": \"String\",\n      \"size\": 100,\n      \"ordering\": 3,\n      \"isRequired\": true,\n      \"isEditable\": true,\n      \"dropdownFilter\": null,\n      \"controlDefaultValue\": null,\n      \"functionOnChange\": null,\n      \"functionOnBlur\": null,\n      \"functionOnKeyPress\": null,\n      \"sectionHeader\": null,\n      \"sectionOrder\": null\n    },\n    {\n      \"fieldname\": \"blacklist\",\n      \"yourlabel\": \"Black List\",\n      \"controlname\": \"dropdown\",\n      \"isControlShow\": true,\n      \"referenceTable\": \"tblCountry\",\n      \"referenceColumn\": \"name,@,code\",\n      \"type\": null,\n      \"size\": null,\n      \"ordering\": 4,\n      \"isRequired\": true,\n      \"isEditable\": true,\n      \"dropdownFilter\": null,\n      \"controlDefaultValue\": null,\n      \"functionOnChange\": null,\n      \"functionOnBlur\": null,\n      \"functionOnKeyPress\": null,\n      \"sectionHeader\": null,\n      \"sectionOrder\": null\n    },\n    {\n      \"fieldname\": \"activeInactive\",\n      \"yourlabel\": \"Active\",\n      \"controlname\": \"dropdown\",\n      \"isControlShow\": true,\n      \"referenceTable\": \"tblCountry\",\n      \"referenceColumn\": \"name\",\n      \"type\": null,\n      \"size\": null,\n      \"ordering\": 5,\n      \"isRequired\": true,\n      \"isEditable\": true,\n      \"dropdownFilter\": null,\n      \"controlDefaultValue\": null,\n      \"functionOnChange\": null,\n      \"functionOnBlur\": null,\n      \"functionOnKeyPress\": null,\n      \"sectionHeader\": null,\n      \"sectionOrder\": null\n    }\n  ],\n  \"children\": []\n}",
                 "form": []
             },
             "tests": []
@@ -130,16 +123,16 @@
             "colId": "bd2cbe50-4bf4-4a24-9d7c-3a8af6066f63",
             "containerId": "33f61978-0806-4a00-b911-c0689c92efb3",
             "name": "list",
-            "url": "http://localhost:3016/api/FormControl/list?menuID=1",
+            "url": "http://localhost:3016/api/FormControl/list?menuID=2",
             "method": "GET",
             "sortNum": 80000,
             "created": "2023-12-12T07:56:03.384Z",
-            "modified": "2024-01-03T12:40:19.381Z",
+            "modified": "2023-12-28T09:38:40.886Z",
             "headers": [],
             "params": [
                 {
                     "name": "menuID",
-                    "value": "1",
+                    "value": "2",
                     "isPath": false
                 }
             ],
@@ -445,44 +438,6 @@
             "body": {
                 "type": "json",
                 "raw": "[\n  {\n    \"routeName\": \"mastervalue\",\n    \"code\": \"IL\",\n    \"name\": \"ISRAEL\",\n    \"countryPhoneCode\": \"null\",\n    \"blacklist\": \"n\",\n    \"activeInactive\": \"y\",\n    \"tblState\": [],\n    \"tblCity\": [],\n    \"tableName\": \"tblCountry\"\n  }\n]",
-                "form": []
-            },
-            "tests": []
-        },
-        {
-            "_id": "e79dcc07-493e-4772-99f8-dfd73dc6d71a",
-            "colId": "bd2cbe50-4bf4-4a24-9d7c-3a8af6066f63",
-            "containerId": "7126d9bc-260d-4e9b-9ae2-9448a90a4f23",
-            "name": "Add Rules",
-            "url": "http://localhost:3016/api/NoGeneration/AddRules",
-            "method": "POST",
-            "sortNum": 210000,
-            "created": "2024-01-04T11:41:01.632Z",
-            "modified": "2024-01-05T10:20:23.779Z",
-            "headers": [],
-            "params": [],
-            "body": {
-                "type": "json",
-                "raw": "{\n  \"id\":1,\n  \"FormControlId\": 1,\n  \"module\": \"Quatation\",\n  \"preFix\": \"QUA\",\n  \"NoofDigits\": \"5\",\n  \"rules\": [\n    {\n      \"_id\": \"65969e4226df62a8f89b1529\",\n      \"name\":\"countryId\",\n      \"tableName\":\"tblCountry\",\n      \"ColumnName\":\"name\",\n      \"type\":\"key\",\n      \"to\":2,\n      \"from\":0,\n      \"ordering\":5\n    },\n    {\n      \"name\":\"CompanyId\",\n      \"tableName\":\"tblCompany\",\n      \"ColumnName\":\"name\",\n      \"type\":\"key\",\n      \"to\":2,\n      \"from\":0,\n      \"ordering\":3\n    },\n    {\n      \"name\":\"BookingDate\",\n      \"tableName\":\"tblbl\",\n      \"ColumnName\":\"date\",\n      \"type\":\"date\",\n      \"DateFormat\":\"DD\",\n      \"to\":2,\n      \"from\":0,\n      \"ordering\":2\n    }\n  ]\n}",
-                "form": []
-            },
-            "tests": []
-        },
-        {
-            "_id": "1d3bf813-7766-4510-8274-ed8ac20afc2e",
-            "colId": "bd2cbe50-4bf4-4a24-9d7c-3a8af6066f63",
-            "containerId": "7126d9bc-260d-4e9b-9ae2-9448a90a4f23",
-            "name": "Generate No.",
-            "url": "http://localhost:3016/api/NoGeneration/GenerateNo",
-            "method": "POST",
-            "sortNum": 220000,
-            "created": "2024-01-05T05:15:43.423Z",
-            "modified": "2024-01-05T10:49:17.275Z",
-            "headers": [],
-            "params": [],
-            "body": {
-                "type": "json",
-                "raw": "{\n  \"countryId\": 1,\n  \"CompanyId\": 1,\n  \"BookingDate\": 1,\n  \"FormControlId\": 1,\n  \"tableName\": \"demoTable\"\n}",
                 "form": []
             },
             "tests": []
