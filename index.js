@@ -34,9 +34,9 @@ app.set('view engine', 'html');
 app.use('/site', express.static('static'));
 
 app.use(logger('dev'));
-app.use(express.json({ limit: '10mb' }));
-app.use(bodyParser.urlencoded({ limit: "10mb", extended: true }));
-app.use(bodyParser.json({ limit: "10mb" }));
+app.use(express.json({ limit: '100mb' }));
+app.use(bodyParser.urlencoded({ limit: "100mb", extended: true }));
+app.use(bodyParser.json({ limit: "100mb" }));
 app.use(express.static(path.join(__dirname, 'public')));
 const BalanceRouter = require('./src/routes/Balancereport');
 const tblRouert = require('./src/routes/tblRoutes');
@@ -45,57 +45,15 @@ const FormRouter = require('./src/routes/FormRoute');
 const menuRouter = require('./src/routes/menuRoute');
 const roleRouter = require('./src/routes/roleRouter');
 const userRouter = require('./src/routes/userRoute');
+const NoGenerationRoutes = require('./src/routes/NoGenerationRoutes');
+const ImageForLoing=require('./src/routes/ImageForLoing');
+const Reports=require('./src/routes/Reports&sp');
 const dynamicRouterMiddleware = require('./src/routes/SingleinsertRoute'); // Adjust path as needed
 //const dynamicRouterMiddleware = require('./src/routes/SingleinsertRoute') 
 
 // Middleware to parse JSON bodies
 app.use(bodyParser.json());
 app.post('/api/insertdata', dynamicRouterMiddleware);
-// Unified endpoint for dynamic routing
-// Unified endpoint for dynamic routing
-// Dynamic router middleware
-// const dynamicRouterMiddleware = (req, res, next) => {
-//     const routeName = req.body.routeName;
-//     console.log(routeName);
-//     console.log('Received request on /api/insertdata with routeName:', req.body.routeName);
-
-//     switch (routeName) {
-//         case 'balancereport':
-//             BalanceRouter(req, res, next);
-
-//             break;
-//         case 'tbl':
-//             tblRouert(req, res, next);
-//             break;
-//         case 'master':
-//             MasterRouter(req, res, next);
-//             break;
-//         case 'FormRoute':
-            
-          
-//            // app.use("/api/FormControl", FormRouter);
-           
-//                 req.url = '/add';  // Redirect to the 'add' path 
-//                 //req.method = 'POST';  // Ensure the method is POST
-            
-//             return next('route');  // Continue to the next route that matches the new URL
-
-//         case 'menucontrol':
-//             menuRouter(req, res, next);
-//             break;
-//         case 'rolecontrol':
-//             roleRouter(req, res, next);
-//             break;
-//         case 'usercontrol':
-//             userRouter(req, res, next);
-//             break;
-//         default:
-//             res.status(404).send('Route not found');
-//     }
-// };
-
-// Unified endpoint for insert data
-//app.post('/api/insertdata', dynamicRouterMiddleware); 
 app.use('/form', FormRouter);
 app.use("/api/balancereport", BalanceRouter);
 app.use("/api/tbl", tblRouert);
@@ -104,6 +62,9 @@ app.use("/api/FormControl", FormRouter);
 app.use("/api/menuControl", menuRouter);
 app.use("/api/roleControl", roleRouter);
 app.use("/api/userControl", userRouter);
+app.use("/api/NoGeneration", NoGenerationRoutes);
+app.use("/api/image", ImageForLoing); 
+app.use("/api/Reports", Reports); 
 
 
 
