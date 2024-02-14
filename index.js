@@ -7,6 +7,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
 var session = require('express-session');
+var status=require("express-status-monitor")
 
 var flash = require('connect-flash');
 // const connection=require('./src/config/MongoConnection');
@@ -28,6 +29,7 @@ var sessionFlash = function (req, res, next) {
 
 }
 app.use(sessionFlash)
+app.use(status())
 app.set('views', path.join(__dirname, 'views'));
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
